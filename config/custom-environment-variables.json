@@ -1,0 +1,16 @@
+{
+    "App": {
+        "port": "APP_PORT" // 端口
+    },
+    "Database": {
+        "user": "DB_USER", // MongoDB用户名
+        "psd": "DB_PASSWORD", // MongoDB密码
+        "host": "DB_HOST",
+        "dbName": "DB_NAME", // MongoDB数据库名
+        "port": "DB_PORT",
+        "authdbName":"DB_AUTH_NAME"
+    },
+    "App-jwt":{
+        "jwt":"APP_JWT"
+    }
+}
