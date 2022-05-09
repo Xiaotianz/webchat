@@ -2,10 +2,11 @@
  * @Author: @By.Xiaotian
  * @Date: 2022-05-09 15:18:12
  * @LastEditors: Xiaotian
- * @LastEditTime: 2022-05-09 17:06:41
+ * @LastEditTime: 2022-05-09 17:33:02
  * @Description: 
  * 
  */
+const { use } = require('../../app');
 const {user} = require('../../service/index')
 
 class userController {
@@ -32,9 +33,28 @@ class userController {
     }
     async delete(ctx,next){
         try {
-            console.log(ctx.params);
+            let {id} = ctx.params;
+            // console.log(id);
+            const result = await user.delete(id);
+            if(result != null && result !=undefined){
+                ctx.json();
+            }else{
+                ctx.fail();
+            }
+            next();
         } catch (error) {
-            
+            ctx.err();
+            throw new Error(error);
+        }
+    }
+    async find(ctx,next){
+        try {
+            const result = await user.findAll();
+            ctx.json(result);
+            next();
+        } catch (error) {
+            ctx.err();
+            throw new Error(error);
         }
     }
 }
