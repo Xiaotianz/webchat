@@ -2,7 +2,7 @@
  * @Author: @By.Xiaotian
  * @Date: 2022-05-06 16:07:10
  * @LastEditors: Xiaotian
- * @LastEditTime: 2022-05-09 17:27:30
+ * @LastEditTime: 2022-06-05 13:52:31
  * @Description: 
  * 
  * Copyright (c) 2022 by liutian 840916593@qq.com, All Rights Reserved. 
@@ -10,19 +10,21 @@
 function routerResponse(option={}){
     return async function(ctx,next){
         try{
-            ctx.json = function (data) {
+            ctx.json = function (data,data2={}) {
                 ctx.type ='json'
                 ctx.body = {
                     code : option.successCode || 200,
                     msg : option.successMsg || 'success',
-                    data : data
+                    data : data || '操作成功'
                 }
             }
-            ctx.fail = function(){
+            ctx.fail = function(options={}){
+                ctx.status = options.code
                 ctx.type ='json'
                 ctx.body = {
-                    code : option.successCode || 500,
-                    msg : option.successMsg || '系统错误',
+                    code : options.code || 500,
+                    msg:'error',
+                    data : options.msg || '系统错误',
                 }
             }
             await next();

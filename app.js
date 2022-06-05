@@ -2,7 +2,7 @@
  * @Author: @By.Xiaotian
  * @Date: 2022-05-06 08:59:28
  * @LastEditors: Xiaotian
- * @LastEditTime: 2022-05-09 15:46:37
+ * @LastEditTime: 2022-06-05 13:41:19
  * @Description: 
  * 
  * Copyright (c) 2022 by liutian 840916593@qq.com, All Rights Reserved. 
@@ -16,10 +16,11 @@ const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser');
 const logger = require('koa-logger')
 const log = require('./utils/log/logger');
-app.use(log()); // 处理log的中间件
+const koajwt = require('koa-jwt');
 const config = require('config'); // 引入config
+const {err401} = require('./config/status')
 // App配置
-const appConfig = config.get('App'); // 直接使用 config 获取App的配置
+const SECRET = config.get('App-jwt.jwt'); // 直接使用 config 获取App的配置
 
 // mongodb
 const {mongooseConnect} = require('./config_mongo/mongo');
@@ -28,6 +29,24 @@ mongooseConnect();
 app.use(bodyparser({
   enableTypes:['json', 'form', 'text']
 }))
+
+// 路由前拦截auth401状态值
+app.use(async (ctx,next)=>{
+  return next().catch((err)=>{
+    if(err.status == 401){
+      ctx.body = err401;
+    }else{
+      throw err
+    }
+  })
+})
+// jwt
+app.use(koajwt({
+  secret:SECRET,
+  key:'id',
+}).unless({path:['/api/login','/api/register']})
+)
+
 // 路由
 const routerResponse = require('./utils/routerResponse')
 app.use(routerResponse())
@@ -49,12 +68,8 @@ app.use(router.routes(),router.allowedMethods());
 // app.use(swagger.routes(), swagger.allowedMethods())
 
 onerror(app)
-
-// app.use(async (ctx)=>{
-//   ctx.body = ctx.request.body;
-// })
-
 app.use(json())
+app.use(log()); // 处理log的中间件
 app.use(logger())
 app.use(require('koa-static')(__dirname + '/public'))
 
@@ -71,15 +86,6 @@ app.use(async (ctx, next) => {
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
 })
 
-//jwt
-// const jwt = config.get('App-jwt.jwt');
-// router.use(koaJwt({
-//   jwt,
-//   debug:true,
-// }))
-// router.get('/auth',async (ctx,next)=>{
-//   ctx.body = ctx.state.user
-// })
 // error-handling
 app.on('error', (err, ctx) => {
   console.error('server error', err, ctx)

@@ -2,7 +2,7 @@
  * @Author: @By.Xiaotian
  * @Date: 2022-05-06 12:48:47
  * @LastEditors: Xiaotian
- * @LastEditTime: 2022-05-09 16:26:36
+ * @LastEditTime: 2022-05-29 14:43:51
  * @Description: 
  * 
  * Copyright (c) 2022 by liutian 840916593@qq.com, All Rights Reserved. 
@@ -33,6 +33,7 @@ const UserSchema = new Schema(
     password:{  // 用户密码
         type:String,
         required:true,
+        select: false,
         min:6,
         max:16,
     },
@@ -58,8 +59,8 @@ const UserSchema = new Schema(
     district:String,
     // 头像
     avatar:String,
-    // 好友列表
-    FriendsList:Array,
+    createDate:String,
+    updateDate:String,
 },
 {
     timestamps: { 

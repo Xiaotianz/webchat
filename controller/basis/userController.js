@@ -2,24 +2,14 @@
  * @Author: @By.Xiaotian
  * @Date: 2022-05-09 15:18:12
  * @LastEditors: Xiaotian
- * @LastEditTime: 2022-05-09 17:33:02
+ * @LastEditTime: 2022-06-05 13:54:02
  * @Description: 
  * 
  */
-const { use } = require('../../app');
-const {user} = require('../../service/index')
-
+const { user } = require('../../service/index')
+const status = require('../../config/status');
+const { err500 } = require('../../config/status');
 class userController {
-   async create(ctx,next){
-       try{
-            const result = await user.create(ctx.request.body)
-            ctx.json(result);
-            next();
-       }catch(err){
-            ctx.err(err);
-            throw new Error(err);
-       }
-    }
     async update(ctx,next){
         try {
             let body = ctx.request.body;
@@ -34,12 +24,12 @@ class userController {
     async delete(ctx,next){
         try {
             let {id} = ctx.params;
-            // console.log(id);
+            
             const result = await user.delete(id);
             if(result != null && result !=undefined){
                 ctx.json();
             }else{
-                ctx.fail();
+                ctx.fail(err500);
             }
             next();
         } catch (error) {
@@ -49,7 +39,7 @@ class userController {
     }
     async find(ctx,next){
         try {
-            const result = await user.findAll();
+            const result = await user.findAllandQuery();
             ctx.json(result);
             next();
         } catch (error) {

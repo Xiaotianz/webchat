@@ -12,5 +12,8 @@
     },
     "App-jwt":{
         "jwt":"APP_JWT"
+    },
+    "PassWord-SECRET_KEY":{
+        "SECRET_KEY":"APP_PASSWORD_KEY"
     }
 }
