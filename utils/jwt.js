@@ -1,3 +1,11 @@
+/*
+ * @Author: @By.Xiaotian
+ * @Date: 2022-08-01 22:29:27
+ * @LastEditors: Xiaotian
+ * @LastEditTime: 2022-08-04 00:17:06
+ * @Description: 
+ * 
+ */
 const jwt = require("jsonwebtoken");
 // const koajwt = require("koa-jwt");
 const config = require('config');
