@@ -2,7 +2,7 @@
  * @Author: @By.Xiaotian
  * @Date: 2022-05-06 08:59:28
  * @LastEditors: Xiaotian
- * @LastEditTime: 2022-06-05 13:41:19
+ * @LastEditTime: 2022-08-04 18:31:39
  * @Description: 
  * 
  * Copyright (c) 2022 by liutian 840916593@qq.com, All Rights Reserved. 
@@ -17,6 +17,7 @@ const bodyparser = require('koa-bodyparser');
 const logger = require('koa-logger')
 const log = require('./utils/log/logger');
 const koajwt = require('koa-jwt');
+const koacors = require('koa2-cors');
 const config = require('config'); // 引入config
 const {err401} = require('./config/status')
 // App配置
@@ -25,6 +26,10 @@ const SECRET = config.get('App-jwt.jwt'); // 直接使用 config 获取App的配
 // mongodb
 const {mongooseConnect} = require('./config_mongo/mongo');
 mongooseConnect();
+
+app.use(koacors({
+  origin:'*'
+}))
 
 app.use(bodyparser({
   enableTypes:['json', 'form', 'text']
@@ -41,10 +46,11 @@ app.use(async (ctx,next)=>{
   })
 })
 // jwt
+// 不验证jwt接口
 app.use(koajwt({
   secret:SECRET,
   key:'id',
-}).unless({path:['/api/login','/api/register']})
+}).unless({path:['/api/basis/login','/api/basis/register','/api/basis/ver_email']})
 )
 
 // 路由

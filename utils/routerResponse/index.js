@@ -2,7 +2,7 @@
  * @Author: @By.Xiaotian
  * @Date: 2022-05-06 16:07:10
  * @LastEditors: Xiaotian
- * @LastEditTime: 2022-06-05 13:52:31
+ * @LastEditTime: 2022-08-04 19:50:09
  * @Description: 
  * 
  * Copyright (c) 2022 by liutian 840916593@qq.com, All Rights Reserved. 
@@ -19,7 +19,6 @@ function routerResponse(option={}){
                 }
             }
             ctx.fail = function(options={}){
-                ctx.status = options.code
                 ctx.type ='json'
                 ctx.body = {
                     code : options.code || 500,
@@ -30,6 +29,7 @@ function routerResponse(option={}){
             await next();
         }catch(err){
             ctx.err = function (msg,code) {
+                    ctx.status = 500
                     ctx.type = 'json'
                     ctx.body = {
                         code : code || option.failCode || 500,

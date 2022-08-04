@@ -2,7 +2,7 @@
  * @Author: @By.Xiaotian
  * @Date: 2022-05-06 12:48:47
  * @LastEditors: Xiaotian
- * @LastEditTime: 2022-05-29 14:43:51
+ * @LastEditTime: 2022-08-04 20:30:17
  * @Description: 
  * 
  * Copyright (c) 2022 by liutian 840916593@qq.com, All Rights Reserved. 
@@ -43,22 +43,41 @@ const UserSchema = new Schema(
         required:true,
     },
     // 个性签名
-    signature:String,
+    signature:{
+        type:String,
+        default:null,
+    },
      // 0-男 1-女
     gender:{//用户性别
         type:Number,
         default:0
     },
     // 国家
-    country:String,
+    country:{
+        type:String,
+        default:null,
+    },
     // 省市
-    province:String,
+    province:{
+        type:String,
+        default:null,
+    },
     // 城市
-    city:String,
+    city:{
+        type:String,
+        default:null,
+    },
     // 区/县 
-    district:String,
+    district:{
+        type:String,
+        default:null,
+    },
     // 头像
-    avatar:String,
+    avatar:{
+        type:String,
+        default:null,
+    },
+
     createDate:String,
     updateDate:String,
 },

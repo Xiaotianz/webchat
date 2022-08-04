@@ -2,7 +2,7 @@
  * @Author: @By.Xiaotian
  * @Date: 2022-05-10 09:09:36
  * @LastEditors: Xiaotian
- * @LastEditTime: 2022-08-04 00:06:40
+ * @LastEditTime: 2022-08-04 18:14:01
  * @Description: 
  * 
  */
@@ -30,6 +30,10 @@ let state = {
     Email500:{
         code:500,
         msg:"验证码发送失败"
+    },
+    EmailVerFail403:{
+        code:403,
+        msg:'邮箱账号或验证码不一致'
     }
 }
 

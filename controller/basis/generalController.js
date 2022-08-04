@@ -2,7 +2,7 @@
  * @Author: @By.Xiaotian
  * @Date: 2022-05-29 13:51:38
  * @LastEditors: Xiaotian
- * @LastEditTime: 2022-06-05 13:53:17
+ * @LastEditTime: 2022-08-04 20:20:25
  * @Description: 
  * 
  */
@@ -10,11 +10,11 @@ const { CryptoPassword }  = require('../../utils/crypto')
 const status = require('../../config/status')
 const {user} = require('../../service/index');
 const sign = require('../../utils/jwt')
-const { err500,err201 } = require('../../config/status');
+const { err500,err201, EmailVerFail403 } = require('../../config/status');
 class generalController {
     async login(ctx,next){
         try {
-            let {username:email, password} = ctx.request.body;
+            let {email, password} = ctx.request.body;
             let login = {
                 email,
                 password:CryptoPassword(password),
@@ -35,15 +35,26 @@ class generalController {
     }
     async create(ctx,next){
         try{
-             ctx.request.body.password = CryptoPassword(ctx.request.body.password);
-             await user.create(ctx.request.body);
-             ctx.json();
+             let {password,email,verCode} = ctx.request.body;
+             console.log(ctx.request.body);
+             let emailData = global.emailData
+             if(emailData !=undefined){
+                if(emailData.email == email && emailData.code == verCode){
+                    ctx.request.body.password = CryptoPassword(password);
+                    await user.create(ctx.request.body)
+                    ctx.json();
+                }else{
+                    ctx.fail(EmailVerFail403);
+                }
+             }else{
+                ctx.fail(EmailVerFail403);
+             }
              next();
         }catch(err){
              ctx.fail(status[err]);
              next();
         }
-     }
+    }
 }
 
 
