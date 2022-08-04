@@ -5,8 +5,10 @@
  * 验证:
  * 相关信息 global.emailData;
  */
-const nodemailer = require('nodemailer')
-const smtpTransport = require('nodemailer-smtp-transport')
+const nodemailer = require('nodemailer');
+const config = require('config');
+const pass = config.get('Smtp.pass'); 
+const smtpTransport = require('nodemailer-smtp-transport');
 const { Email500,Email200 } = require('../config/status');
 
 const randomFns=(email)=> { // 生成6位随机数
@@ -28,7 +30,7 @@ const sendEmail=(email='')=>{
         secure: true,
         auth: {
           user: 'lxiaotiantop@qq.com', // 用户名
-          pass: 'utbppcfursztbbda' // SMTP授权码
+          pass: pass // SMTP授权码
         }
     }));
     return new Promise((resolve,reject)=>{
@@ -61,7 +63,3 @@ const sendEmail=(email='')=>{
     })
 }
 module.exports = sendEmail;
-// sendEmail('840916593@qq.com').then(res=>{
-//     console.log(res);
-//     console.log(emailData);
-// })
