@@ -2,7 +2,7 @@
  * @Author: @By.Xiaotian
  * @Date: 2022-05-06 12:48:47
  * @LastEditors: Xiaotian
- * @LastEditTime: 2022-08-04 20:30:17
+ * @LastEditTime: 2022-08-05 14:58:20
  * @Description: 
  * 
  * Copyright (c) 2022 by liutian 840916593@qq.com, All Rights Reserved. 
@@ -75,7 +75,7 @@ const UserSchema = new Schema(
     // 头像
     avatar:{
         type:String,
-        default:null,
+        default:`/img/${Math.floor(Math.random() * 10) + 1}.png`,
     },
 
     createDate:String,

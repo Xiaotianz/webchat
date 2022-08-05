@@ -2,7 +2,7 @@
  * @Author: @By.Xiaotian
  * @Date: 2022-05-06 08:59:28
  * @LastEditors: Xiaotian
- * @LastEditTime: 2022-08-04 18:31:39
+ * @LastEditTime: 2022-08-05 14:34:09
  * @Description: 
  * 
  * Copyright (c) 2022 by liutian 840916593@qq.com, All Rights Reserved. 
@@ -45,6 +45,7 @@ app.use(async (ctx,next)=>{
     }
   })
 })
+app.use(require('koa-static')(__dirname + '/public'))
 // jwt
 // 不验证jwt接口
 app.use(koajwt({
@@ -79,9 +80,9 @@ app.use(log()); // 处理log的中间件
 app.use(logger())
 app.use(require('koa-static')(__dirname + '/public'))
 
-app.use(views(__dirname + '/views', {
-  extension: 'pug'
-}))
+// app.use(views(__dirname + '/views', {
+//   extension: 'pug'
+// }))
 
 
 // logger
